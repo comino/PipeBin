@@ -1,0 +1,5 @@
+node_modules/
+.env
+./test/sample2.jpg
+www/
+*.swp

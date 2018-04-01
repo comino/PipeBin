@@ -1,0 +1,28 @@
+{
+  "name": "pipehole",
+  "version": "0.0.1",
+  "description": "Pastebin for the command line",
+  "main": "run.js",
+  "scripts": {
+    "start": "node run.js",
+    "test": "echo \"Error: no test specified\" && exit 1", 
+	"simpletest": "echo 'Hello World' | nc localhost 9001 | xargs curl" ,
+	"imagetest": "cat sample.jpg | nc localhost 9001 | xargs curl  > sample2.jpg && cmp sample.jpg sample2.jpg"
+  },
+  "author": "Sven Eliasson",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "chai": "^4.1.2",
+    "cookie-parser": "^1.4.3",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "express": "^4.16.3",
+    "qrcode-terminal": "^0.12.0",
+    "raw-socket": "^1.5.2"
+  },
+  "devDependencies": {
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.9.0"
+  }
+}
