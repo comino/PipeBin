@@ -4,4 +4,3 @@ node_modules/
 www/
 *.swp
 package-lock.json
-ecosystem.json

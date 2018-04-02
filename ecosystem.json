@@ -1,0 +1,21 @@
+{
+  deploy : {
+    production : {
+      user : "comino",
+	  key: "~/.ssh/id_rsa",
+      host : ["64.137.245.58"],
+      ref  : "origin/master",
+      repo : "https://github.com/comino/pipebin.git",
+      path : "/home/comino/app/pipebin",
+      "post-deploy" : "npm install && pm2 startOrRestart ecosystem.json --env production",
+      env  : {
+        NODE_ENV: "production",
+		PORT_DEFAULT : "5555", 
+		PORT_URL_ONLY: "4444", 
+        PORT: "8000",
+		BIN_LIMIT: "100mb",
+		DOMAIN: "pipebin.de"
+      }
+    }
+  }
+}
