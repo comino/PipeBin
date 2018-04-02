@@ -26,18 +26,10 @@ app.post('/', (req, res) => {
 		RAW TCP - ENDPOINTS  
 **********************************/
 
-const generateFileLink = (fileName) => {
-	if (config.HTTP.PORT === 80) {
-		return `http://${config.DOMAIN}/${fileName}`;
-	} else {
-		return `http://${config.DOMAIN}:${config.HTTP.PORT}/${fileName}`;
-	}
-}; 
-
 app.qrserver = net.createServer((socket) => {
 	socket.on('data', (payload) => {
 		const fileName = storeToFile(payload, config.FILES.ROOT_FOLDER, config.TOKEN_LEN);
-		const fileLink = generateFileLink(fileName); 
+		const fileLink = `http://${config.DOMAIN}/${fileName}`;
 		qrcode.generate(fileLink, (qr) => {
 			socket.write(`${fileLink}\n${qr}\n`);
 			socket.destroy();
@@ -48,11 +40,12 @@ app.qrserver = net.createServer((socket) => {
 app.qrserver = net.createServer((socket) => {
 	socket.on('data', (payload) => {
 		const fileName = storeToFile(payload, config.FILES.ROOT_FOLDER, config.TOKEN_LEN);
-		const fileLink = generateFileLink(fileName); 
+		const fileLink = `http://${config.DOMAIN}/${fileName}`;
 		socket.write(`${fileLink}\n`);
 		socket.destroy();
 	})
 }).listen(config.INGOING.PORT_URL_ONLY);
 
-
 module.exports = app;
+
+

@@ -3,3 +3,4 @@ node_modules/
 ./test/sample2.jpg
 www/
 *.swp
+package-lock.json
