@@ -3,6 +3,7 @@ const net = require('net');
 const qrcode = require('qrcode-terminal');
 const config = require('./config/config');
 const storeToFile = require('./helpers/storeToFile'); 
+const bodyParser = require('body-parser');
 
 /*********************************
 		HTTP - ENDPOINTS  
@@ -10,22 +11,30 @@ const storeToFile = require('./helpers/storeToFile');
 const app = express();
 app.disable('x-powered-by');
 app.disable('etag');
+app.use(bodyParser.text({limit: config.FILES.BIN_LIMIT}));
+app.use(bodyParser.raw({limit:config.FILES.BIN_LIMIT}));
+
+// DONWLOAD BIN's
+express.static.mime.default_type = "text/html";
 app.use(express.static(config.FILES.ROOT_FOLDER));
 
-app.all('/', (req, res) => {
+// MISC ENDPOINTS
+app.get('/', (req, res) => {
 	res.status(200).json({ success: true, message: 'You reached the beam endpoint' });
 });
 
-/*
-TODO: add a POST data endpoint? Easier to integrate in some 3rd party apps
 app.post('/', (req, res) => {
-
-}); */
+	if(!req.body){
+		res.status(422).send("Empty or invalid payload"); 
+	}
+	const fileName = storeToFile(req.body, config.FILES.ROOT_FOLDER, config.TOKEN_LEN);
+	const fileLink = `http://${config.DOMAIN}/${fileName}`;
+	res.status(200).send(fileLink + "\n"); 
+});
 
 /*********************************
 		RAW TCP - ENDPOINTS  
 **********************************/
-
 app.qrserver = net.createServer((socket) => {
 	socket.on('data', (payload) => {
 		const fileName = storeToFile(payload, config.FILES.ROOT_FOLDER, config.TOKEN_LEN);

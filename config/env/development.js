@@ -26,9 +26,10 @@ ret.HTTP.PORT = parseInt(get_env('PORT', '') || get_env('HTTP_PORT', '8000'));
 ret.INGOING = {}; 
 ret.INGOING.PORT_DEFAULT =  parseInt(get_env('PORT_DEFAULT', '9000'));
 ret.INGOING.PORT_URL_ONLY =  parseInt(get_env('PORT_URL_ONLY', '9001'));
-
+"BIN_LIMIT", 
 // FILES FOLDER 
 ret.FILES = {}; 
+ret.FILES.LIMIT = get_env("BIN_LIMIT", "5mb"); 
 ret.FILES.LIFETIME = get_env('LIFETIME', '90')
 ret.FILES.ROOT_FOLDER = get_env('ROOT_FOLDER', 'www')
 
