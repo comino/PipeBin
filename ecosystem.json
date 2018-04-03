@@ -2,7 +2,7 @@
 	apps : [
 		{
 			name      : "PipeBin",
-			script    : "npm start",
+			script    : "run.js",
 			watch     : true,
 			ignore_watch : ["node_modules"],
 			env_production : {
