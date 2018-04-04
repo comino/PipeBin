@@ -17,6 +17,7 @@ function get_env(key, default_value) {
 // GENERAL 
 ret.DOMAIN = get_env('DOMAIN', 'localhost:8000');
 ret.TOKEN_LEN = parseInt(get_env('TOKEN_LEN', '3'));
+ret.MAX_PAYLOAD_LEN = 1024*1024*50;
 
 // HTTP
 ret.HTTP = {};

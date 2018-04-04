@@ -5,6 +5,17 @@ const config = require('./config/config');
 const storeToFile = require('./helpers/storeToFile'); 
 const bodyParser = require('body-parser');
 
+
+const parseData = function(payload){
+		if( payload.length > config.MAX_PAYLOAD_LEN){
+			console.log("invalid payload size"); 
+			return ""; 
+		}
+		const fileName = storeToFile(payload, config.FILES.ROOT_FOLDER, config.TOKEN_LEN);
+		const fileLink = `http://${config.DOMAIN}/${fileName}`;
+		return fileLink; 
+}
+
 /*********************************
 		HTTP - ENDPOINTS  
 **********************************/
@@ -20,25 +31,24 @@ app.use(express.static(config.FILES.ROOT_FOLDER));
 
 // MISC ENDPOINTS
 app.get('/', (req, res) => {
-	res.status(200).json({ success: true, message: 'You reached the beam endpoint' });
+	res.status(200).json({success: true, message: 'You reached the beam endpoint' });
 });
 
 app.post('/', (req, res) => {
 	if(!req.body){
 		res.status(422).send("Empty or invalid payload"); 
 	}
-	const fileName = storeToFile(req.body, config.FILES.ROOT_FOLDER, config.TOKEN_LEN);
-	const fileLink = `http://${config.DOMAIN}/${fileName}`;
+	const fileLink = parseData(req.body);
 	res.status(200).send(fileLink + "\n"); 
 });
 
 /*********************************
 		RAW TCP - ENDPOINTS  
 **********************************/
+
 app.qrserver = net.createServer((socket) => {
 	socket.on('data', (payload) => {
-		const fileName = storeToFile(payload, config.FILES.ROOT_FOLDER, config.TOKEN_LEN);
-		const fileLink = `http://${config.DOMAIN}/${fileName}`;
+		const fileLink = parseData(payload);
 		qrcode.generate(fileLink, (qr) => {
 			socket.write(`${fileLink}\n${qr}\n`);
 			socket.destroy();
@@ -48,8 +58,7 @@ app.qrserver = net.createServer((socket) => {
 
 app.qrserver = net.createServer((socket) => {
 	socket.on('data', (payload) => {
-		const fileName = storeToFile(payload, config.FILES.ROOT_FOLDER, config.TOKEN_LEN);
-		const fileLink = `http://${config.DOMAIN}/${fileName}`;
+		const fileLink = parseData(payload);
 		socket.write(`${fileLink}\n`);
 		socket.destroy();
 	})
