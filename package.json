@@ -12,16 +12,16 @@
   "author": "Sven Eliasson",
   "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.18.2",
-    "chai": "^4.1.2",
+    "body-parser": "^1.18.3",
+    "chai": "^4.2.0",
     "cookie-parser": "^1.4.3",
-    "eslint": "^4.19.1",
-    "express": "^4.16.3",
+    "eslint": "^5.11.1",
+    "express": "^4.16.4",
     "qrcode-terminal": "^0.12.0",
-    "raw-socket": "^1.5.2"
+    "raw-socket": "^1.6.4"
   },
   "devDependencies": {
-    "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.9.0"
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0"
   }
 }

@@ -8,8 +8,8 @@ const bodyParser = require('body-parser');
 
 const parseData = function(payload){
 		if( payload.length > config.MAX_PAYLOAD_LEN){
-			console.log("invalid payload size"); 
-			return ""; 
+			console.log(`invalid payload size${payload.length}`); 
+			return; 
 		}
 		const fileName = storeToFile(payload, config.FILES.ROOT_FOLDER, config.TOKEN_LEN);
 		const fileLink = `http://${config.DOMAIN}/${fileName}`;
@@ -22,17 +22,16 @@ const parseData = function(payload){
 const app = express();
 app.disable('x-powered-by');
 app.disable('etag');
+
 app.use(bodyParser.text({limit: config.FILES.BIN_LIMIT}));
 app.use(bodyParser.raw({limit:config.FILES.BIN_LIMIT}));
 
 // DONWLOAD BIN's
 express.static.mime.default_type = "text/html";
 app.use(express.static(config.FILES.ROOT_FOLDER));
+app.use(express.static("www"));
 
 // MISC ENDPOINTS
-app.get('/', (req, res) => {
-	res.status(200).json({success: true, message: 'You reached the beam endpoint' });
-});
 
 app.post('/', (req, res) => {
 	if(!req.body){

@@ -1,0 +1,57 @@
+<html>
+  <head>
+      <title>E2EE</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+  </head>
+  <body>
+    <h1>Test encrytion</h1>
+    <div>
+      Input: <input id="in"></input>
+    </div>
+    <div>
+      Password: <input id="pass"></input>
+    </div>
+    <div style="margin-top:2em;">
+      Output:
+      <div id="out">
+        Nope 
+      </div>
+    </div>
+    <div style="margin-top:2em;display:hide">
+      Input:
+      <div id="reout">
+        Nopenope 
+      </div>
+    </div>
+    <button onClick="encrypt()">Encrypt</button>
+          
+    <script>
+      let code = (()=> ({
+        encryptMessage: function(messageToencrypt = '', secretkey = ''){
+          var encryptedMessage = CryptoJS.AES.encrypt(messageToencrypt, secretkey);
+          return encryptedMessage.toString();
+        },
+        decryptMessage: function(encryptedMessage = '', secretkey = ''){
+          var decryptedBytes = CryptoJS.AES.decrypt(encryptedMessage, secretkey);
+          var decryptedMessage = decryptedBytes.toString(CryptoJS.enc.Utf8);
+          return decryptedMessage;
+        }
+      })
+      )();
+
+      let encrypt = () => {
+        const output = document.getElementById("out");
+        const input = document.getElementById("in");
+        const pass = document.getElementById("pass");
+
+        output.innerHTML= code.encryptMessage(input.value, pass.value);
+        const outout = document.getElementById("reout");
+        outout.innerHTML = code.decryptMessage(output.innerHTML, pass.value);
+      };
+
+      console.log(code.encryptMessage('Welcome to AES !','your_password'));
+      console.log(code.decryptMessage('U2FsdGVkX1/S5oc9WgsNyZb8TJHsuL7+p4yArjEpOCYgDTUdkVxkmr+E+NdJmro9','your_password'))
+
+    </script>
+  </body>
+</html>

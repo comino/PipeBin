@@ -32,6 +32,6 @@ ret.INGOING.PORT_URL_ONLY =  parseInt(get_env('PORT_URL_ONLY', '9001'));
 ret.FILES = {}; 
 ret.FILES.LIMIT = get_env("BIN_LIMIT", "5mb"); 
 ret.FILES.LIFETIME = get_env('LIFETIME', '90')
-ret.FILES.ROOT_FOLDER = get_env('ROOT_FOLDER', 'www')
+ret.FILES.ROOT_FOLDER = get_env('ROOT_FOLDER', 'bucket')
 
 module.exports = ret;
